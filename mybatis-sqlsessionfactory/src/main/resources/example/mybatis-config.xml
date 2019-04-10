@@ -1,0 +1,80 @@
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+        <!-- 方法一： 从外部指定properties配置文件, 除了使用resource属性指定外，还可通过url属性指定url
+          <properties resource="dbConfig.properties"></properties>
+          -->
+        <!-- 方法二： 直接配置为xml -->
+        <!--当以上两种方法都xml配置优先， 外部指定properties配置其次-->
+        <properties>
+            <property name="driver" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+"/>
+            <property name="username" value="root"/>
+            <property name="password" value="123456"/>
+        </properties>
+    <!--
+    在configuration节点之下，我们可以配置10个子节点， 分别为：properties、typeAliases、plugins、objectFactory、
+    objectWrapperFactory、settings、environments、databaseIdProvider、typeHandlers、mappers
+    -->
+    <!--
+    假如我们系统的开发环境和正式环境所用的数据库不一样（这是肯定的）， 那么可以设置两个environment, 两个id分别对应开发环境（dev）和正式环境（final），那么通过配置environments的default属性就能选择对应的environment了， 例如，我将environments的deault属性的值配置为dev, 那么就会选择dev的environment。
+    -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <!--
+               如果上面没有指定数据库配置的properties文件，那么此处可以这样直接配置
+               <property name="driver" value="com.mysql.jdbc.Driver"/>
+               <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+               <property name="username" value="root"/>
+               <property name="password" value="123456"/>
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+        <!-- 我再指定一个environment -->
+        <environment id="test">
+            <!--
+  　    　　 type属性用于指定事务管理器类型
+      　　    JDBC：使用JDBC的提交和回滚设置，依赖从数据源获取的连接来管理事务范围。
+      　　    MANAGED：让容器（如Spring）来管理事务的生命周期。默认情况会关闭连接，
+　　　　　　　　　　若不想关闭连接则需要如下配置：
+　　    　　　　   <transactionManager type="MANAGED">
+　　　　              <property name="closeConnection" value="false"/>
+　　              </transactionManager>
+           -->
+            <transactionManager type="JDBC"/>
+            <!--
+  　　　　    type属性用于指定连接池类型
+  　　         UNPOOLED：连接用完就关闭，不放到连接池
+      　　     POOLED：连接用完则放在连接池
+　　        -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!-- 与上面的url不一样 -->
+                <property name="url" value="jdbc:mysql://localhost:3306/demo"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 注册xml文件 -->
+    <mappers>
+        <!-- 使用Dao+配置文件时需要加载映射文件
+        加载UserMainMapper.xml文件，UserMainMapper.xml位于com.lanhuigu.mybatis.map这个包下，
+        所以resource写成com/lanhuigu/mybatis/map/UserMainMapper.xml-->
+        <!-- <mapper resource="com/lanhuigu/mybatis/map/UserMainMapper.xml"/> -->
+        <!-- 将map下的*.java和*.xml都加载到SqlSession实例中 -->
+        <!--<mapper resource="com/zx/dao/tbbookMapper.xml" />-->
+        <mapper resource="mapper/UserMapper.xml"/>
+        <!-- 使用Dao+注解时需要加载注解
+        <mapper resource="org.chris.mybatissqlsessionfactory.dao"/>
+        -->
+    </mappers>
+</configuration>

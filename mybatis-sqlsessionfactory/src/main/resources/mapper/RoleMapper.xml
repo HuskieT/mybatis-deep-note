@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.RoleMapper">
+    <!-- 缓冲  -->
+    <cache eviction="LRU" flushInterval="1000" size="512" readOnly="true"></cache>
+
+    <!-- 自定义返回结果集 -->
+    <!--id元素：表示查询结果集中的唯一标识。column是查询出来的列名，property是type指定的pojo类型中的字段名，
+    最终resultMap对column和property做一个映射关系-->
+    <resultMap id="roleMap" type="role">
+        <!--用于设置主键字段与领域模型属性的映射关系-->
+        <id property="id" column="id" javaType="java.lang.Long"></id>
+        <!--用于设置普通字段与领域模型属性的映射关系-->
+        <result property="roleName" column="roleName" javaType="java.lang.String"></result>
+        <result property="remark" column="remark" javaType="java.lang.String"></result>
+        <result property="createDate" column="createDate" javaType="java.util.Date"></result>
+    </resultMap>
+
+    <resultMap id="roleMap1" type="role">
+        <!-- <constructor> 指定使用指定参数列表的构造函数来实例化领域模型。注意：其子元素顺序必须与参数列表顺序对应-->
+        <constructor>
+            <!--idArg 标记该入参为主键-->
+            <idArg column="id" javaType="java.lang.Long"/>
+            <!--arg 标记该入参为普通字段(主键使用该子元素设置也是可以的)-->
+            <arg column="roleName" javaType="java.lang.String"/>
+            <arg column="remark" javaType="java.lang.String"/>
+            <arg column="createDate" javaType="java.util.Date"/>
+        </constructor>
+    </resultMap>
+
+    <!-- Sql块 -->
+    <sql id="selectAll">
+        select * from
+    </sql>
+
+    <!--resultMap属性：指定定义的resultMap的id，如果这个resultMap在其它的mapper文件，前边需要加namespace-->
+    <select id="getAll"        ="roleMap" >
+        <include refid="selectAll"/> t_role
+    </select>
+
+    <select id="getRoleById" parameterType="Long" resultType="role" >
+        select * from t_role where id = #{id}
+    </select>
+
+    <!-- 查询结果以 字段-值 的形式分装到map中 -->
+    <select id="getRoleMap" resultType="map" parameterType="Long" >
+        select * from t_role where id = #{id}
+    </select>
+
+    <!-- 多个相同参数可用0,1....来表示进行传参。 map传参法-->
+    <select id="getEntity" resultType="role" parameterType="hashmap" >
+        select * from t_role where roleName = #{0} and remark = #{1} and createDate = #{2}
+    </select>
+    <!--@Param注解传参法 -->
+    <select id="getEntity1" resultType="role"  >
+        select * from t_role where roleName = #{roleName} and remark = #{remark} and createDate = #{createDate}
+    </select>
+    <!--Java Bean传参法     #{}里面的名称对应的是User类里面的成员属性。-->
+    <select id="getEntity2" resultType="role" parameterType="role"  >
+        select * from t_role where roleName = #{roleName} and remark = #{remark} and createDate = #{createDate}
+    </select>
+    <!--list in的使用-->
+    <select id="getRoleList" resultType="role"   >
+        select * from t_role where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+              #{item}
+        </foreach>
+    </select>
+    <!--map list 嵌套的使用-->
+    <select id="getRoles" resultType="role"   >
+        select * from t_role where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and roleName = #{roleName}
+    </select>
+
+    <!--动态sql-->
+    <!--<where>可以自动处理第一个and-->
+    <select id="getRole1" resultType="role" parameterType="role" >
+        <include refid="selectAll"/>
+        t_role
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+            <if test="roleName!=null and roleName!=''">
+                roleName=#{roleName}
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark=#{remark}
+            </if>
+            <if test="createDate!=null">
+                createDate=#{createDate}
+            </if>
+        </where>
+    </select>
+
+    <!--mybatis trim标签的使用 -->
+    <!--
+        trim 属性
+    　　prefix：前缀
+    　　suffix：后缀
+    　　prefixOverrides：忽略第一个指定分隔符
+    　　suffixOverrides：会略最后一个分隔符
+    -->
+    <select id="getRole2" resultType="role" parameterType="role" >
+        <include refid="selectAll"/>
+        t_role
+        <!--忽略拼接时的第一个and或者or-->
+        <trim prefix="WHERE" prefixOverrides="and | or">
+                    <if test="id!=null and id!=''">
+                        id=#{id}
+                    </if>
+                    <if test="roleName!=null and roleName!=''">
+                        and roleName=#{roleName}
+                    </if>
+                    <if test="remark!=null and remark!=''">
+                        and remark=#{remark}
+                    </if>
+                    <if test="createDate!=null">
+                        and createDate=#{createDate}
+                    </if>
+        </trim>
+    </select>
+
+    <!--choose标签的使用-->
+    <select id="getRole3" resultType="role" parameterType="role" >
+        <include refid="selectAll"/>
+        t_role
+        <choose>
+            <when  test="id!=null and id!=''">
+                AND  id=#{id}
+            </when>
+            <when test="roleName != null and roleName!=''">
+                AND  roleName=#{roleName}
+            </when>
+            <when test="remark!=null and remark!=''">
+                AND  remark=#{remark}
+            </when>
+            <otherwise>
+                AND createDate != null
+            </otherwise>
+        </choose>
+    </select>
+
+
+
+
+
+    <!--还可以设置属性值来使得定义的sql代码段不断变化。-->
+    <sql id="userColumns"> ${alias}.id,${alias}.name,${alias}.age</sql>
+    <select id="selectUsers" resultType="map">
+        select
+        <include refid="userColumns"><property name="alias" value="t1"/></include>,
+        <include refid="userColumns"><property name="alias" value="t2"/></include>
+        from user t1
+        cross join some_table t2
+    </select>
+
+
+
+
+
+    <!-- insert,并且获得且返回主键,赋给bookid;
+            useGeneratedKeys="true":返回主键;
+            keyProperty="bookid":主键赋值到的属性   -->
+    <insert id="insert" parameterType="role" >
+         insert into t_role (roleName,remark,createDate) values (#{roleName},#{remark},#{createDate,jdbcType=DATE})
+    </insert>
+
+    <!-- 多个相同参数可用0,1....来表示进行传参。 -->
+    <insert id="insert1" parameterType="string">
+        insert into t_role (roleName,remark,createDate) values (#{0},#{1},#{2})
+    </insert>
+
+    <!--mybatis foreach标签的使用（可做批量添加、修改、删除） -->
+    <!--
+    　collection：要循环的集合
+　　　index：定一个名字，用于表示在迭代过程中，每次迭代到的位置（index为数组的下标）
+　　　item：集合中每一个元素进行迭代时的别名
+　　　open：以什么开始
+　　　close：以什么结束
+　　　separator：循环内容之间以什么分隔
+    -->
+    <!--　若list有两条数据 则执行的sql语句为类似这种
+　　　　　　insert into user(id,name,gender) values ("1","张三","男"),("2","李四","女")-->
+    <insert id="insert2" parameterType="List">
+        insert into t_role (roleName,remark,createDate) values
+        <foreach collection="list" item="role" open="(" close=")" separator=",">
+            #{role.roleName},#{role.remark},#{role.createDate}
+        </foreach>
+    </insert>
+
+
+
+    <!--update 与set标签使用-->
+    <update id="update"  timeout="30" parameterType="role">
+        update role
+        <set>
+            <if test="roleName!=null and roleName!=''">
+                roleName=#{roleName}
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark=#{remark}
+            </if>
+            <if test="createDate!=null">
+                createDate=#{createDate}
+            </if>
+        </set>
+    </update>
+
+
+
+
+
+
+
+
+
+    <!-- delete -->
+    <delete id="delete" parameterType="Long">
+            delete from t_role where id=#{id}
+    </delete>
+</mapper>

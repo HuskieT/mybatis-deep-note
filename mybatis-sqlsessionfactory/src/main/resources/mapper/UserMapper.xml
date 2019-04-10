@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.UserMapper">
+
+    <resultMap type="user" id="userMap">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+
+        <!--association元素处理表与表之间一对一的关系-->
+        <!--association中property为当前类的属性  -->
+        <!--column用来传给另一个表的值所在列，一般为两个表关联的主键。对于复合主键可以指定多个列名，通过column="{prop1=col1,prop2=col2}"-->
+        <!--select另外一个查询语句的id，可以加载这个属性映射需要的复杂类型。获取的 在column属性中指定的列的值将被传递给目标select语句作为参数。-->
+        <association property="role" column="id" select="org.chris.mybatissqlsessionfactory.mapper.RoleMapper.getRoleById"/>
+        <!-- 写法二
+         <association property="role" javaType="org.chris.mybatissqlsessionfactory.entity.Role">
+            <id column="id" property="tid"></id>
+            <result column="roleName" property="roleName"/>
+        </association>
+        -->
+    </resultMap>
+
+    <!--collection元素的作用几乎和association是相同的,collection中多了ofType属性，这个属性用来区分与类的属性property，它代表的是集合属性中包含的类型-->
+
+
+    <insert id="insert1" parameterType="org.chris.mybatissqlsessionfactory.entity.User"  >
+        INSERT INTO `t_user`(`username`,`password`) VALUES (#{username},#{password})
+    </insert>
+</mapper>

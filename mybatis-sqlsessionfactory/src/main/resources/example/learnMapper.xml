@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.RoleMapper">
+    <!--mybatis 二级缓存配置  cache开启二级缓存-->
+    <!-- eviction 回收策略
+        LRU – 最近最少使用的:移除最长时间不被使用的对象。
+        FIFO – 先进先出:按对象进入缓存的顺序来移除它们。
+        SOFT – 软引用:移除基于垃圾回收器状态和软引用规则的对象。
+        WEAK – 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+        默认的是 LRU。
+    -->
+    <!--flushInterval(刷新间隔)可以被设置为任意的正整数,而且它们代表一个合理的毫秒 形式的时间段。
+    默认情况是不设置,也就是没有刷新间隔,缓存仅仅调用语句时刷新-->
+    <!--size(引用数目)可以被设置为任意正整数,要记住你缓存的对象数目和你运行环境的 可用内存资源数目。默认值是 1024。-->
+    <!--readOnly(只读)属性可以被设置为 true 或 false。只读的缓存会给所有调用者返回缓 存对象的相同实例。因此这些对象不能被修改。
+    这提供了很重要的性能优势。可读写的缓存 会返回缓存对象的拷贝(通过序列化) 。这会慢一些,但是安全,因此默认是 false-->
+    <cache
+            eviction="FIFO" <!--回收策略为先进先出-->
+    flushInterval="60000" <!--自动刷新时间60s-->
+    size="512" <!--最多缓存512个引用对象-->
+    readOnly="true"/> <!--只读-->
+
+    <!--自定义缓存  自定义缓存必须实现org.mybatis.cache.Cache 接口-->
+    <cache type="com.domain.something.MyCustomCache"/>
+    <!--cache-ref 元素来引用另外一个缓存。-->
+    <cache-ref namespace="com.someone.application.data.SomeMapper"/>
+    <!--
+    在MyBatis中有flushCache、useCache这两个配置属性，分为下面几种情况：
+    （1）当为select语句时：
+    flushCache默认为false，表示任何时候语句被调用，都不会去清空本地缓存和二级缓存。
+    useCache默认为true，表示会将本条语句的结果进行二级缓存。
+    （2）当为insert、update、delete语句时：
+    flushCache默认为true，表示任何时候语句被调用，都会导致本地缓存和二级缓存被清空。
+    useCache属性在该情况下没有。
+    flushCache为true的时候，每次调用都清理缓存，这样等于你每次调用都要重新读数据库和写缓存，自然很慢；
+    flushCache为false的时候，每次调用不清缓存，除了第一次调用较慢，后面都会很快。
+    flushCache：如果设成true，当语句调用时一级二级缓存都会被清理掉。select语句默认是false
+    useCache：如果设成true，语句调用的结果会缓存在二级缓存里。select语句默认是true
+    一般来讲，查询的时候会把useCache设成true，当然可能有些结果变化很频繁的查询可以设成false，因为这种做缓存效果不大。flushCache一般会设成false，因为查询不会改变数据库的结果，不需要去更新缓存
+    相反，我们做update或delete的时候，flushCache就要设成true了，因为可能会改变数据库的记录导致缓存失效。同时useCache就没必要设成true了，因为update或delete的结果缓存没啥意义
+    -->
+
+
+    <resultMap id="roleTestMap"  type="role">
+        <!--
+        数据库有两个字段juniorHighSchool 、seniorHighSchool
+        表中也有两个字段juniorHighSchool 、seniorHighSchool
+        private int during; // 在本校就读时间
+        -->
+       <!--情景：查询学生信息的seniorHighSchool信息，若就读时间during字段值为4、5、6时，则以juniorHighSchool字段作所为seniorHighSchool信息。-->
+        // 若不加这句，则当将juniorHighSchool赋予给seniorHighSchool属性时，juniorHighSchool属性将为null
+        <result column="juniorHighSchool" property="juniorHighSchool" javaType="java.lang.String"/>
+
+        <discriminator column="during" javaType="_int">
+            // 形式1：通过resultType设置动态映射信息
+            <case value="4" resultType="EStudent">
+                <result column="juniorHighSchool" property="seniorHighSchool"/>
+            </case>
+
+            // 形式2: 通过resultMap设置动态映射信息
+            <case value="5" resultMap="dynamicRM"/>
+            <case value="6" resultMap="dynamicRM"/>
+        </discriminator>
+    </resultMap>
+    <resultMap id="dynamicRM" type="EStudent">
+        <result column="juniorHighSchool" property="seniorHighSchool"/>
+    </resultMap>
+
+
+    <resultMap type="card" id="cardResult">
+        <id property="id" column="cid"/>
+        <result property="name" column="cname"/>
+        <result property="sex" column="csex"/>
+        <result property="userid" column="id"/>
+    </resultMap>
+    <!--resultMap嵌套使用-->
+    <!--在一个resultMap中嵌套了一个resultMap，用来映射另一个类的属性，它使用数据库的连接查询语句进行查询，只会进行一次查询。-->
+    <resultMap type="user" id="userCard2">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <association property="card" resultMap="org.chris.mybatissqlsessionfactory.mapper.RoleMapper.cardResult"/>
+    </resultMap>
+
+
+
+    <!--sql的嵌套使用-->
+    <sql id="sometable">
+    ${prefix}Table
+    </sql>
+
+    <sql id="someinclude">
+        from
+        <include refid="${include_target}"/>
+    </sql>
+
+    <select id="select" resultType="map">
+        select
+        field1, field2, field3
+        <include refid="someinclude">
+            <property name="prefix" value="Some"/>
+            <property name="include_target" value="sometable"/>
+        </include>
+    </select>
+
+
+
+    <select id="getStundent" resultMap="rm">
+      SELECT ID, Name, JuniorHighSchool, SeniorHighSchool, during
+        FROM TStudent
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cors test page</title>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        function loadData(){
+            $.ajax({
+                url: "http://localhost:8081/interceptor/corsTest",
+                type:"GET",
+                dataType:"json",
+                timeout:10000,
+                success:function(data){
+                    $("#result").append(data.result+"<br />");
+                    console.log(data);
+                },
+                error:function(e){
+                    $("#result").append(e.statusText+"<br />");
+                }
+            });
+        }
+        $(function(){
+            $("#host").append("origin:"+window.location.origin);
+        });
+    </script>
+</head>
+<body>
+<button onclick="loadData()">onclick</button>
+<div id="host"></div>
+<div id="result" style="height:200px;width:100%"></div>
+</body>
+</html>
