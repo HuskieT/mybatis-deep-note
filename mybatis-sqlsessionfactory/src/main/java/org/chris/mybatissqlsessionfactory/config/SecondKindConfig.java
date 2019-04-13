@@ -59,7 +59,7 @@ public class SecondKindConfig {
         SqlSession sqlSession = sessionFactory.openSession();
 
         User user = new User();
-        user.setUsername("longxia");
+        user.setUserName("longxia");
         user.setPassword("123456");
         sqlSession.insert("insert",user);
         sqlSession.commit();

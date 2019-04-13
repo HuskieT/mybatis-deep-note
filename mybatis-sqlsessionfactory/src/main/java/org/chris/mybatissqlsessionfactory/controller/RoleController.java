@@ -31,7 +31,7 @@ public class RoleController {
 
         Role role = new Role();
         role.setRoleName("chris");
-        role.setRemark("63456463");
+        role.setNote("63456463");
         role.setCreateDate(new Date());
         roleService.insert(role);
         return "Success" ;

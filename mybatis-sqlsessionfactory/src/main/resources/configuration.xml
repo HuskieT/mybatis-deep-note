@@ -87,8 +87,40 @@
                 <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
+       <!--测试环境-->
+       <environment id="test">
+           <!-- 配置事务管理 ，采用JDBC管理事务-->
+           <transactionManager type="JDBC" />
+           <!-- POOLED是mybatis的 数据源 -->
+           <dataSource type="POOLED">
+               <property name="driver" value="${jdbc.driverClassName}"/>
+               <property name="url" value="${jdbc.url}"/>
+               <property name="username" value="${jdbc.username}"/>
+               <property name="password" value="${jdbc.password}"/>
+           </dataSource>
+       </environment>
+       <!--生产环境-->
+       <environment id="pro">
+           <!-- 配置事务管理 ，采用JDBC管理事务-->
+           <transactionManager type="JDBC" />
+           <!-- POOLED是mybatis的 数据源 -->
+           <dataSource type="POOLED">
+               <property name="driver" value="${jdbc.driverClassName}"/>
+               <property name="url" value="${jdbc.url}"/>
+               <property name="username" value="${jdbc.username}"/>
+               <property name="password" value="${jdbc.password}"/>
+           </dataSource>
+       </environment>
+       <!--预发布环境  id=uat-->
     </environments>
-
+    <!--数据库厂商标识-->
+    <!--自定义厂商标识  type="自己的databaseIdProvider接口实现类" -->
+    <databaseIdProvider type="DB_vendor">
+        <property name="SQL" value="sqlserver" />
+        <property name="MySQL" value="mysql" />
+        <property name="DB2" value="db2" />
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
 
     <!--mappers可以有多个-->
     <mappers>

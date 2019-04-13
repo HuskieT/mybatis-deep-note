@@ -3,7 +3,7 @@
 <configuration>
 
         <!-- 方法一： 从外部指定properties配置文件, 除了使用resource属性指定外，还可通过url属性指定url
-          <properties resource="dbConfig.properties"></properties>
+          <properties resource="jdbc.properties"></properties>
           -->
         <!-- 方法二： 直接配置为xml -->
         <!--当以上两种方法都xml配置优先， 外部指定properties配置其次-->

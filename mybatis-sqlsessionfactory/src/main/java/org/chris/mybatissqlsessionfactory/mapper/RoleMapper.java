@@ -30,4 +30,24 @@ public interface RoleMapper {
     List<Role>  getRoleList(List<Long> list);
 
     List<Role> getRoles(Map<String,Object> map);
+    /**
+     * 功能描述:
+     * @param: Role  role  Role对象
+     * @return: 
+     * @auther: chris
+     * @date: 2019/4/13 15:54
+     */
+    void  update(Role role);
+
+    void  insert2(List<Role> list);
+
+    Map selectUsers();
+
+    Map  getRoleMap(Integer in);
+
+    List<Role> getRole1(Role role);
+
+    Role getRole3(Role role);
+
+    Role getRole2(Role role);
 }

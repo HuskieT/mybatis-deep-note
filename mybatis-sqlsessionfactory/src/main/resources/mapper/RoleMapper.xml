@@ -11,21 +11,21 @@
     最终resultMap对column和property做一个映射关系-->
     <resultMap id="roleMap" type="role">
         <!--用于设置主键字段与领域模型属性的映射关系-->
-        <id property="id" column="id" javaType="java.lang.Long"></id>
+        <id property="id" column="id" javaType="java.lang.Integer" jdbcType="int"></id>
         <!--用于设置普通字段与领域模型属性的映射关系-->
-        <result property="roleName" column="roleName" javaType="java.lang.String"></result>
-        <result property="remark" column="remark" javaType="java.lang.String"></result>
-        <result property="createDate" column="createDate" javaType="java.util.Date"></result>
+        <result property="roleName" column="role_name" javaType="java.lang.String"></result>
+        <result property="note" column="note" javaType="java.lang.String"></result>
+        <result property="createDate" column="create_time" javaType="java.util.Date"></result>
     </resultMap>
 
     <resultMap id="roleMap1" type="role">
         <!-- <constructor> 指定使用指定参数列表的构造函数来实例化领域模型。注意：其子元素顺序必须与参数列表顺序对应-->
         <constructor>
             <!--idArg 标记该入参为主键-->
-            <idArg column="id" javaType="java.lang.Long"/>
+            <idArg column="id" javaType="java.lang.Integer"/>
             <!--arg 标记该入参为普通字段(主键使用该子元素设置也是可以的)-->
             <arg column="roleName" javaType="java.lang.String"/>
-            <arg column="remark" javaType="java.lang.String"/>
+            <arg column="note" javaType="java.lang.String"/>
             <arg column="createDate" javaType="java.util.Date"/>
         </constructor>
     </resultMap>
@@ -36,16 +36,16 @@
     </sql>
 
     <!--resultMap属性：指定定义的resultMap的id，如果这个resultMap在其它的mapper文件，前边需要加namespace-->
-    <select id="getAll"        ="roleMap" >
+    <select id="getAll"        resultMap="roleMap" >
         <include refid="selectAll"/> t_role
     </select>
 
-    <select id="getRoleById" parameterType="Long" resultType="role" >
+    <select id="getRoleById" parameterType="Integer" resultType="role" >
         select * from t_role where id = #{id}
     </select>
 
     <!-- 查询结果以 字段-值 的形式分装到map中 -->
-    <select id="getRoleMap" resultType="map" parameterType="Long" >
+    <select id="getRoleMap" resultType="map" parameterType="Integer" >
         select * from t_role where id = #{id}
     </select>
 
@@ -55,11 +55,11 @@
     </select>
     <!--@Param注解传参法 -->
     <select id="getEntity1" resultType="role"  >
-        select * from t_role where roleName = #{roleName} and remark = #{remark} and createDate = #{createDate}
+        select * from t_role where roleName = #{roleName} and note = #{note} and createDate = #{createDate}
     </select>
     <!--Java Bean传参法     #{}里面的名称对应的是User类里面的成员属性。-->
     <select id="getEntity2" resultType="role" parameterType="role"  >
-        select * from t_role where roleName = #{roleName} and remark = #{remark} and createDate = #{createDate}
+        select * from t_role where roleName = #{roleName} and note = #{note} and createDate = #{createDate}
     </select>
     <!--list in的使用-->
     <select id="getRoleList" resultType="role"   >
@@ -89,7 +89,7 @@
             <if test="roleName!=null and roleName!=''">
                 roleName=#{roleName}
             </if>
-            <if test="remark!=null and remark!=''">
+            <if test="note!=null and note!=''">
                 remark=#{remark}
             </if>
             <if test="createDate!=null">
@@ -117,7 +117,7 @@
                     <if test="roleName!=null and roleName!=''">
                         and roleName=#{roleName}
                     </if>
-                    <if test="remark!=null and remark!=''">
+                    <if test="note!=null and note!=''">
                         and remark=#{remark}
                     </if>
                     <if test="createDate!=null">
@@ -137,7 +137,7 @@
             <when test="roleName != null and roleName!=''">
                 AND  roleName=#{roleName}
             </when>
-            <when test="remark!=null and remark!=''">
+            <when test="note!=null and note!=''">
                 AND  remark=#{remark}
             </when>
             <otherwise>
@@ -168,12 +168,12 @@
             useGeneratedKeys="true":返回主键;
             keyProperty="bookid":主键赋值到的属性   -->
     <insert id="insert" parameterType="role" >
-         insert into t_role (roleName,remark,createDate) values (#{roleName},#{remark},#{createDate,jdbcType=DATE})
+         insert into t_role (roleName,note,createDate) values (#{roleName},#{remark},#{createDate,jdbcType=DATE})
     </insert>
 
     <!-- 多个相同参数可用0,1....来表示进行传参。 -->
     <insert id="insert1" parameterType="string">
-        insert into t_role (roleName,remark,createDate) values (#{0},#{1},#{2})
+        insert into t_role (roleName,note,createDate) values (#{0},#{1},#{2})
     </insert>
 
     <!--mybatis foreach标签的使用（可做批量添加、修改、删除） -->
@@ -188,9 +188,9 @@
     <!--　若list有两条数据 则执行的sql语句为类似这种
 　　　　　　insert into user(id,name,gender) values ("1","张三","男"),("2","李四","女")-->
     <insert id="insert2" parameterType="List">
-        insert into t_role (roleName,remark,createDate) values
+        insert into t_role (roleName,note,createDate) values
         <foreach collection="list" item="role" open="(" close=")" separator=",">
-            #{role.roleName},#{role.remark},#{role.createDate}
+            #{role.roleName},#{role.note},#{role.createDate}
         </foreach>
     </insert>
 
@@ -203,8 +203,8 @@
             <if test="roleName!=null and roleName!=''">
                 roleName=#{roleName}
             </if>
-            <if test="remark!=null and remark!=''">
-                remark=#{remark}
+            <if test="note!=null and note!=''">
+                note=#{note}
             </if>
             <if test="createDate!=null">
                 createDate=#{createDate}
@@ -221,7 +221,7 @@
 
 
     <!-- delete -->
-    <delete id="delete" parameterType="Long">
+    <delete id="delete" parameterType="Integer">
             delete from t_role where id=#{id}
     </delete>
 </mapper>

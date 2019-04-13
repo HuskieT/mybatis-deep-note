@@ -26,7 +26,7 @@ public class ExampleObjectFactory extends DefaultObjectFactory {
         if (type.equals(User.class)){
             User p = (User)super.create(type);
             p.setPassword("123456");
-            p.setUsername("tom");
+            p.setUserName("tom");
             return p;
         }
         return super.create(type);
@@ -50,6 +50,6 @@ public class ExampleObjectFactory extends DefaultObjectFactory {
     public static void main(String[] args) throws Exception{
         ExampleObjectFactory e = new ExampleObjectFactory();
         User p = (User) e.create(User.class);
-        log.debug(p.getUsername());
+        log.debug(p.getCnName());
     }
 }

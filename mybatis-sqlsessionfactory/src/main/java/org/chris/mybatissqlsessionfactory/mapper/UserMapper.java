@@ -42,4 +42,7 @@ public interface UserMapper {
 
     public int insert1(User user);
 
+
+    User  getByNameLike(String name);
+
 }

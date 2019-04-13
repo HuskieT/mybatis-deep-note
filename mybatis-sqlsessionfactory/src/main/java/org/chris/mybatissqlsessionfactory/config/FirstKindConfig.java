@@ -41,7 +41,7 @@ public class FirstKindConfig {
         SqlSession sqlSession = sessionFactory.openSession();
 
         User user = new User();
-        user.setUsername("puder");
+        user.setCnName("puder");
         user.setPassword("123456");
         sqlSession.insert("insert1",user);
         sqlSession.commit();

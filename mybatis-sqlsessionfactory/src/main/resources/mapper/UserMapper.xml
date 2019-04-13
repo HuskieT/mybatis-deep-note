@@ -4,14 +4,20 @@
 
     <resultMap type="user" id="userMap">
         <id column="id" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
+        <result property="userName" column="user_name"  typeHandler="org.chris.mybatissqlsessionfactory.config.MyTypeHandler"/>
+        <result property="password" column="password" />
+        <result property="email"  column="email" />
+        <result property="sex"  column="sex"  typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="cnName"  column="cnname" />
+        <result property="mobile"  column="mobile" />
+        <result property="note"  column="note" />
 
         <!--association元素处理表与表之间一对一的关系-->
         <!--association中property为当前类的属性  -->
         <!--column用来传给另一个表的值所在列，一般为两个表关联的主键。对于复合主键可以指定多个列名，通过column="{prop1=col1,prop2=col2}"-->
         <!--select另外一个查询语句的id，可以加载这个属性映射需要的复杂类型。获取的 在column属性中指定的列的值将被传递给目标select语句作为参数。-->
-        <association property="role" column="id" select="org.chris.mybatissqlsessionfactory.mapper.RoleMapper.getRoleById"/>
+
+        <!--<association property="role" column="role_id" select="org.chris.mybatissqlsessionfactory.mapper.RoleMapper.getRoleById"/>-->
         <!-- 写法二
          <association property="role" javaType="org.chris.mybatissqlsessionfactory.entity.Role">
             <id column="id" property="tid"></id>
@@ -22,8 +28,15 @@
 
     <!--collection元素的作用几乎和association是相同的,collection中多了ofType属性，这个属性用来区分与类的属性property，它代表的是集合属性中包含的类型-->
 
-
+    
     <insert id="insert1" parameterType="org.chris.mybatissqlsessionfactory.entity.User"  >
-        INSERT INTO `t_user`(`username`,`password`) VALUES (#{username},#{password})
+        INSERT INTO `t_user`(`user_name`,`password`,`sex`,`cnname`,`mobile`) VALUES (#{userName},#{password},#{sex,typeHandle=org.apache.ibatis.type.EnumOrdinalTypeHandler },#{cnname},#{mobile})
     </insert>
+    
+    <select id="getByNameLike" parameterType="string" resultMap="userMap">
+        select id , user_name ,password, sex,email,cnname,note,mobile from  t_user
+        where name like concat('%',#{userName typeHandle = org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
+    </select>
 </mapper>
+
+

@@ -23,7 +23,7 @@ public class RoleTest {
     public void testRoleMapper() throws Exception {
 
         Role role = new Role();
-        role.setRemark("435");
+        role.setNote("435");
         role.setRoleName("sdf");
         role.setCreateDate(new Date());
         int a  =  roleMapper.insert(role);
