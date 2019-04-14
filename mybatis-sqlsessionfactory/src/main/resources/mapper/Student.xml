@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.StudentDao">
+    <resultMap id="studentMap" type="org.chris.mybatissqlsessionfactory.entity.Student">
+        <id property="id" column="id"/>
+        <result property="cnName" column="cnname"/>
+        <result property="selfCardNo" column="selfcard_no"/>
+        <result property="note" column="note"/>
+        <result property="sex" column="sex" jdbcType="INTEGER" javaType="org.chris.mybatissqlsessionfactory.entity.SexEnum"
+                typeHandler="org.chris.mybatissqlsessionfactory.entity.SexTypeHandler"/>
+        <association property="studentSelfcard" column="id"
+                     select="org.chris.mybatissqlsessionfactory.mapper.StudentSelfcardDao.findStudentSelfcardByStudentId"/>
+        <collection property="studentLectureList" column="id"
+                    select="org.chris.mybatissqlsessionfactory.mapper.StudentLectureDao.findStudentLectureByStudentId"/>
+    </resultMap>
+    <select id="getStudent" parameterType="int" resultMap="studentMap">
+        select id,cnname,sex,note,selfcard_no from t_student where id=#{id}
+    </select>
+
+</mapper>

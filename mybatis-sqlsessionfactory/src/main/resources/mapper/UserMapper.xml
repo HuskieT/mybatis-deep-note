@@ -30,12 +30,12 @@
 
     
     <insert id="insert1" parameterType="org.chris.mybatissqlsessionfactory.entity.User"  >
-        INSERT INTO `t_user`(`user_name`,`password`,`sex`,`cnname`,`mobile`) VALUES (#{userName},#{password},#{sex,typeHandle=org.apache.ibatis.type.EnumOrdinalTypeHandler },#{cnname},#{mobile})
+        INSERT INTO `t_user`(`user_name`,`password`,`sex`,`cnname`,`mobile`) VALUES (#{userName},#{password},#{sex,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler },#{cnname},#{mobile})
     </insert>
     
     <select id="getByNameLike" parameterType="string" resultMap="userMap">
         select id , user_name ,password, sex,email,cnname,note,mobile from  t_user
-        where name like concat('%',#{userName typeHandle = org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
+        where name like concat('%',#{userName typeHandler = org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
     </select>
 </mapper>
 

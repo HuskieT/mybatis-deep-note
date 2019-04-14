@@ -24,3 +24,31 @@
 <mappers>
     <mapper  class = "com.xml.xxx.mapper.roleMapper" />
 <mappers>
+
+# 3 association
+
+<association property="xxx" column="xxx" select="xxx" ></association>
+
+
+property 表示 been对象
+cloumn 指定传入给select语句的参数（可以多个 用逗号隔开）
+select 指定的sql去查询
+
+# collection
+
+<collection ></collection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

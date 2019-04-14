@@ -70,13 +70,13 @@ public class RoleTest {
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2018-08-25");
         Role role = new Role();
         role.setRoleName("xiaoqi");
-        role.setRoleName("63456463");
+        role.setNote("63456463");
         role.setCreateDate(date);
         List list  =  roleMapper.getEntity2(role);
     }
     /**
      * 功能描述:List封装in查询的使用
-     * @param:
+     * @param:-
      * @return: 
      * @auther: chris
      * @date: 2018/8/25 21:10

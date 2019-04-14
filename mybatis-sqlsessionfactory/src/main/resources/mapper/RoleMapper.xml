@@ -11,11 +11,11 @@
     最终resultMap对column和property做一个映射关系-->
     <resultMap id="roleMap" type="role">
         <!--用于设置主键字段与领域模型属性的映射关系-->
-        <id property="id" column="id" javaType="java.lang.Integer" jdbcType="int"></id>
+        <id property="id" column="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <!--用于设置普通字段与领域模型属性的映射关系-->
-        <result property="roleName" column="role_name" javaType="java.lang.String"></result>
-        <result property="note" column="note" javaType="java.lang.String"></result>
-        <result property="createDate" column="create_time" javaType="java.util.Date"></result>
+        <result property="roleName" column="role_name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="note" column="note" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result property="createDate" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
     </resultMap>
 
     <resultMap id="roleMap1" type="role">

@@ -23,7 +23,7 @@ public class User implements Serializable {
      *姓名
      */
     private String cnName;
-    private Set sex;
+    private Sex sex;
     private String mobile;
     private String email;
     /**

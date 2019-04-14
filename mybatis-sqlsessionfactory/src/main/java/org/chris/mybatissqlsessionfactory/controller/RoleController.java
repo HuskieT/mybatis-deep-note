@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
  * @Date: 2018/8/25 09:47
  * @Description:
  */
-@Controller
+@RestController
 public class RoleController {
     @Autowired
     private IRoleService roleService;
@@ -26,7 +27,6 @@ public class RoleController {
   * @date: 2018/8/25 9:50
   */
     @RequestMapping("roleTest")
-    @ResponseBody
     public String roleTest(){
 
         Role role = new Role();
