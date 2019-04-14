@@ -1,12 +1,15 @@
 package org.chris.mybatissqlsessionfactory.entity;
 
 import lombok.Data;
+import lombok.ToString;
+
 /**
  * @Auther: chris
  * @Date: 2019/4/13 15:11
  * @Description: 课程表
  */
 @Data
+@ToString
 public class Lecture {
     /**
      * 课程编号

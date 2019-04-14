@@ -1,4 +1,4 @@
-package org.chris.mybatissqlsessionfactory;
+package org.chris.mybatissqlsessionfactory.mapper;
 
 import org.chris.mybatissqlsessionfactory.entity.Role;
 import org.chris.mybatissqlsessionfactory.mapper.RoleMapper;

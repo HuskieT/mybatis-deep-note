@@ -45,4 +45,12 @@ public interface UserMapper {
 
     User  getByNameLike(String name);
 
+    /**
+     * 5.5 foreach
+     *
+     * @param list
+     * @return
+     */
+    List<User> findUserBySex(@Param("sexList") List<Integer> list);
+
 }

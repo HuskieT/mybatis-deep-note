@@ -1,6 +1,7 @@
 package org.chris.mybatissqlsessionfactory.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @Description: 学生表
  */
 @Data
+@ToString
 public class Student {
     private Integer id;
     private String cnName;

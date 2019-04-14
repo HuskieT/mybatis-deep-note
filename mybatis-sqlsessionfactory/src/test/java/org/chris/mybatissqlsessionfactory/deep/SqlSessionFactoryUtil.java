@@ -42,6 +42,11 @@ public class SqlSessionFactoryUtil {
         if (sqlSessionFactory == null) {
             getInstance();
         }
+        /**
+         * sqlSessionFactory.openSession(); 已SIMPLE 执行器形式创建sqlSession
+         * sqlSessionFactory.openSession(ExecutorType.BATCH); 以BATCH 执行器形式创建sqlSession （用于批量更新）
+         *
+         * */
         return sqlSessionFactory.openSession();
     }
 }

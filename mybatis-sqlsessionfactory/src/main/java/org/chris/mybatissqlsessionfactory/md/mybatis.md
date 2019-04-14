@@ -38,9 +38,27 @@ select 指定的sql去查询
 
 <collection ></collection>
 
+# jdk动态代理
 
+//让jdk产生一个代理对象
+Proxy.newProxyInstance(target.getClass().getClassLoad(),target.getClass().getInterfaces(),this)
 
+3各参数：
+target.getClass().getClassLoad() 类加载器
+target.getClass().getInterfaces() 接口（代理对象挂在那个接口下）
+this 代表当前的代理类（例：HelloServiceProxy类）
 
+public Object invoke(Object proxy,Method method , Object[] args)
+
+proxy  代理对象
+method 当前调用的那个方法
+args  方法的参数
+
+# Mapper执行sql 底层实现
+
+https://blog.csdn.net/laravelshao/article/details/81191795   Mybatis源码解析-Mybatis初始化过程
+
+https://blog.csdn.net/laravelshao/article/details/81260281   Mybatis源码解析-Mapper执行sql 
 
 
 

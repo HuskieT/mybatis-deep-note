@@ -14,7 +14,7 @@ public class StudentHealthFemale {
     /**
      *检查日期
      */
-    private String check_date;
+    private String checkDate;
     /**
      *心
      */

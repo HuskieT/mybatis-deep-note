@@ -37,6 +37,13 @@
         select id , user_name ,password, sex,email,cnname,note,mobile from  t_user
         where name like concat('%',#{userName typeHandler = org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
     </select>
+
+    <select id="findUserBySex" resultType="org.chris.mybatissqlsessionfactory.entity.User">
+        select id,user_name as userName,cnname as cnName,sex,mobile,email,note from t_user where sex in
+        <foreach collection="sexList" item="sex" index="index" open="(" separator="," close=")">
+            #{sex}
+        </foreach>
+    </select>
 </mapper>
 
 
