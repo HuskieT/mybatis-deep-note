@@ -12,6 +12,5 @@
         <module>mybatis-sqlsessionfactory</module>
         <module>reverse-engineering</module>
         <module>mybatis_plugin</module>
-        <module>mybatis_plugin1</module>
     </modules>
 </project>
