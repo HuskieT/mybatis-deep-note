@@ -3,9 +3,9 @@
 
 ## 1 参考资料
 
+    http://www.w3school.com.cn/sql/sql_union.asp   w3c教程
+    https://www.yiibai.com/mysql/functions.html    易百教程mysql函数（全）  
     https://www.cnblogs.com/xuyulin/p/5468102.html   MySQL函数大全及用法示例
-
-
 ## 2 常用
 ## 2.1 函数分类
 函数分类： 字符串函数  数学函数 时间函数
@@ -40,9 +40,6 @@ REVERSE(str)
 返回颠倒字符顺序的字符串str
 
 ## 2.3 数学函数
-
-
-
 ## 2.4 时间函数
 time_to_sec(time)    
 返回time值有多少秒    
