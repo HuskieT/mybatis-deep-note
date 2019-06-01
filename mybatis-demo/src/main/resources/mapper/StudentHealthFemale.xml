@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.StudentHealthFemaleDao">
+<mapper namespace="org.chris.mybatis.mapper.StudentHealthFemaleDao">
     <select id="findStudentHealthFemaleByStudentId" parameterType="int"
-            resultType="org.chris.mybatissqlsessionfactory.entity.StudentHealthFemale">
+            resultType="org.chris.mybatis.entity.StudentHealthFemale">
         SELECT
         id,
         student_id,

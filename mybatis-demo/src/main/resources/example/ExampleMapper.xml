@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- mapper 为根元素节点， 一个namespace对应一个dao -->
-<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.RoleMapper">
+<mapper namespace="org.chris.mybatis.mapper.RoleMapper">
 
     <insert
     <!-- 1. id （必须配置）

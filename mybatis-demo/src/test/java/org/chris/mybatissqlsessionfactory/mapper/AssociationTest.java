@@ -2,6 +2,7 @@ package org.chris.mybatissqlsessionfactory.mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
+import org.chris.mybatis.mapper.StudentDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AssociationTest {
 
     @Autowired
-    private  StudentDao studentDao;
+    private StudentDao studentDao;
 
 
     @Test

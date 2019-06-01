@@ -56,13 +56,13 @@
     </settings>
     <typeAliases>
         <!--也可以在类上面使用 @Alias(value="User") 则以注解为别名  -->
-        <typeAlias alias="user" type="org.chris.mybatissqlsessionfactory.entity.User" />
-        <typeAlias alias="role" type="org.chris.mybatissqlsessionfactory.entity.Role"/>
+        <typeAlias alias="user" type="org.chris.mybatis.entity.User" />
+        <typeAlias alias="role" type="org.chris.mybatis.entity.Role"/>
         <!-- 根据包取别名，把包下面的所有类都按类名来取别名 -->
         <!-- 这用可以简化代码量 -->
         <package name="org.chris.mybatissqlsessionfactory.entity" />
     </typeAliases>
-    <objectFactory type="org.chris.mybatissqlsessionfactory.config.ExampleObjectFactory">
+    <objectFactory type="org.chris.mybatis.config.ExampleObjectFactory">
         <property name="someProperty" value="100"/>
     </objectFactory>
     <!--

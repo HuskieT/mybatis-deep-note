@@ -1,7 +1,7 @@
 package org.chris.mybatissqlsessionfactory.mapper;
 
-import org.chris.mybatissqlsessionfactory.entity.Role;
-import org.chris.mybatissqlsessionfactory.mapper.RoleMapper;
+import org.chris.mybatis.entity.Role;
+import org.chris.mybatis.mapper.RoleMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

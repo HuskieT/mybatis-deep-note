@@ -1,11 +1,10 @@
 package org.chris.mybatissqlsessionfactory.mapper;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import org.chris.mybatissqlsessionfactory.entity.Role;
-import org.chris.mybatissqlsessionfactory.entity.User;
-import org.chris.mybatissqlsessionfactory.mapper.RoleMapper;
-import org.chris.mybatissqlsessionfactory.mapper.UserMapper;
+import org.chris.mybatis.entity.Role;
+import org.chris.mybatis.entity.User;
+import org.chris.mybatis.mapper.RoleMapper;
+import org.chris.mybatis.mapper.UserMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

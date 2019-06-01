@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.RoleMapper">
+<mapper namespace="org.chris.mybatis.mapper.RoleMapper">
     <!-- 缓冲  -->
     <cache eviction="LRU" flushInterval="1000" size="512" readOnly="true"></cache>
 
@@ -226,7 +226,7 @@
 
 
     <!--5.2 if-->
-    <select id="findRolesIf" parameterType="string" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="findRolesIf" parameterType="string" resultType="org.chris.mybatis.entity.Role">
         select id,role_name as roleName,note from t_role where 1=1
         <if test="roleName!=null and roleName!=''">
             and role_name like concat('%',#{roleName},'%')
@@ -234,7 +234,7 @@
     </select>
 
     <!-- 5.3 choose,when,otherwise元素 -->
-    <select id="findChooseWhenOtherWise" parameterType="string" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="findChooseWhenOtherWise" parameterType="string" resultType="org.chris.mybatis.entity.Role">
         select id,role_name as roleName,note from t_role
         where 1=1
         <choose>
@@ -252,7 +252,7 @@
     <!-- 5.3 choose,when,otherwise元素end -->
 
     <!-- 5.4 trim,where,set元素 -->
-    <select id="findWhere" parameterType="string" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="findWhere" parameterType="string" resultType="org.chris.mybatis.entity.Role">
         select id,role_name as roleName,note from t_role
         <where>
             <if test="roleName!=null and roleName!=''">
@@ -261,7 +261,7 @@
         </where>
     </select>
 
-    <select id="findRoleTrim" parameterType="string" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="findRoleTrim" parameterType="string" resultType="org.chris.mybatis.entity.Role">
         select id,role_name as roleName,note from t_role
         <trim prefix="where" prefixOverrides="and">
             <if test="roleName!=null and roleName!=''">
@@ -270,7 +270,7 @@
         </trim>
     </select>
 
-    <update id="updateRole" parameterType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <update id="updateRole" parameterType="org.chris.mybatis.entity.Role">
         update t_role
         <set>
             <if test="role!=null">
@@ -288,7 +288,7 @@
     <!-- 5.4 trim,where,set元素end -->
 
     <!-- 5.6 test属性 -->
-    <select id="getRoleTest" parameterType="string" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="getRoleTest" parameterType="string" resultType="org.chris.mybatis.entity.Role">
         select id,role_name as roleName,note from t_role
         <if test="type='Y'">
             where 1=1
@@ -297,7 +297,7 @@
     <!-- 5.6 test属性end -->
 
     <!-- 5.7 使用bind元素 -->
-    <select id="findRoleMulBind" resultType="org.chris.mybatissqlsessionfactory.entity.Role">
+    <select id="findRoleMulBind" resultType="org.chris.mybatis.entity.Role">
         <bind name="pattern_roleName" value="'%'+roleName+'%'"/>
         <bind name="pattern_note" value="'%'+note+'%'"/>
         select id,role_name as roleName,note from t_role

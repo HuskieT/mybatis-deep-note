@@ -2,31 +2,31 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.chris.mybatissqlsessionfactory.mapper.StudentDao">
-    <resultMap id="studentMap" type="org.chris.mybatissqlsessionfactory.entity.Student">
+<mapper namespace="org.chris.mybatis.mapper.StudentDao">
+    <resultMap id="studentMap" type="org.chris.mybatis.entity.Student">
         <id property="id" column="id"/>
         <result property="cnName" column="cnname"/>
         <result property="selfCardNo" column="selfcard_no"/>
         <result property="note" column="note"/>
-        <result property="sex" column="sex" jdbcType="INTEGER" javaType="org.chris.mybatissqlsessionfactory.entity.SexEnum"
-                typeHandler="org.chris.mybatissqlsessionfactory.entity.SexTypeHandler"/>
+        <result property="sex" column="sex" jdbcType="INTEGER" javaType="org.chris.mybatis.entity.SexEnum"
+                typeHandler="org.chris.mybatis.entity.SexTypeHandler"/>
         <association property="studentSelfcard" column="id"
-                     select="org.chris.mybatissqlsessionfactory.mapper.StudentSelfcardDao.findStudentSelfcardByStudentId"/>
+                     select="org.chris.mybatis.mapper.StudentSelfcardDao.findStudentSelfcardByStudentId"/>
         <collection property="studentLectureList" column="id"
-                    select="org.chris.mybatissqlsessionfactory.mapper.StudentLectureDao.findStudentLectureByStudentId"/>
+                    select="org.chris.mybatis.mapper.StudentLectureDao.findStudentLectureByStudentId"/>
         <discriminator javaType="int" column="sex">
             <case value="1" resultMap="maleStudentMap"/>
             <case value="2" resultMap="femaleStudentMap"/>
         </discriminator>
     </resultMap>
-    <resultMap id="maleStudentMap" type="org.chris.mybatissqlsessionfactory.entity.MaleStudent" extends="studentMap">
+    <resultMap id="maleStudentMap" type="org.chris.mybatis.entity.MaleStudent" extends="studentMap">
         <collection property="studentHealthMaleList"
-                    select="org.chris.mybatissqlsessionfactory.mapper.StudentHealthMaleDao.findStudentHealthMaleByStudentId" column="id"/>
+                    select="org.chris.mybatis.mapper.StudentHealthMaleDao.findStudentHealthMaleByStudentId" column="id"/>
     </resultMap>
 
-    <resultMap id="femaleStudentMap" type="org.chris.mybatissqlsessionfactory.entity.FemaleStudent" extends="studentMap">
+    <resultMap id="femaleStudentMap" type="org.chris.mybatis.entity.FemaleStudent" extends="studentMap">
         <collection property="studentHealthFemaleList"
-                    select="org.chris.mybatissqlsessionfactory.mapper.StudentHealthFemaleDao.findStudentHealthFemaleByStudentId" column="id"/>
+                    select="org.chris.mybatis.mapper.StudentHealthFemaleDao.findStudentHealthFemaleByStudentId" column="id"/>
     </resultMap>
 
     <select id="getStudent" parameterType="int" resultMap="studentMap">
@@ -35,9 +35,9 @@
 
 
 
-    <resultMap id="maleStudentMap2" type="org.chris.mybatissqlsessionfactory.entity.MaleStudent" extends="studentMap2">
+    <resultMap id="maleStudentMap2" type="org.chris.mybatis.entity.MaleStudent" extends="studentMap2">
         <collection property="studentHealthMaleList"
-                    ofType="org.chris.mybatissqlsessionfactory.entity.StudentHealthMale">
+                    ofType="org.chris.mybatis.entity.StudentHealthMale">
             <id property="id" column="hid" javaType="int"/>
             <result property="checkDate" column="check_date"/>
             <result property="heart" column="heart"/>
@@ -50,8 +50,8 @@
         </collection>
     </resultMap>
 
-    <resultMap id="femaleStudentMap2" type="org.chris.mybatissqlsessionfactory.entity.FemaleStudent" extends="studentMap2">
-        <collection property="studentHealthFemaleList" ofType="org.chris.mybatissqlsessionfactory.entity.StudentHealthFemale">
+    <resultMap id="femaleStudentMap2" type="org.chris.mybatis.entity.FemaleStudent" extends="studentMap2">
+        <collection property="studentHealthFemaleList" ofType="org.chris.mybatis.entity.StudentHealthFemale">
             <id property="id" column="hid" javaType="int"/>
             <result property="checkDate" column="check_date"/>
             <result property="heart" column="heart"/>
@@ -64,13 +64,13 @@
         </collection>
     </resultMap>
 
-    <resultMap id="studentMap2" type="org.chris.mybatissqlsessionfactory.entity.Student">
+    <resultMap id="studentMap2" type="org.chris.mybatis.entity.Student">
         <id property="id" column="id"/>
         <result property="cnName" column="cnname"/>
         <result property="selfCardNo" column="selfcard_no"/>
         <result property="note" column="note"/>
         <association property="studentSelfcard" column="id"
-                     javaType="org.chris.mybatissqlsessionfactory.entity.StudentSelfCard">
+                     javaType="org.chris.mybatis.entity.StudentSelfCard">
             <result property="id" column="ssid"/>
             <result property="studentId" column="student_id"/>
             <result property="nativeStr" column="native"/>
@@ -78,13 +78,13 @@
             <result property="endDate" column="end_date"/>
             <result property="note" column="ssnote"/>
         </association>
-        <collection property="studentLectureList" ofType="org.chris.mybatissqlsessionfactory.entity.StudentLecture">
+        <collection property="studentLectureList" ofType="org.chris.mybatis.entity.StudentLecture">
             <result property="id" column="slid"/>
             <result property="studentId" column="id"/>
             <result property="grade" column="grade"/>
             <result property="note" column="slnote"/>
             <association property="lecture" column="id"
-                         javaType="org.chris.mybatissqlsessionfactory.entity.Lecture">
+                         javaType="org.chris.mybatis.entity.Lecture">
                 <result property="id" column="lecture_id"/>
                 <result property="lectureName" column="lecture_name"/>
                 <result property="note" column="note"/>

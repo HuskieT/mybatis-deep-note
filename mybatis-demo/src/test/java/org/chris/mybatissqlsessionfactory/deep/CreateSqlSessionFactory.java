@@ -7,8 +7,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.chris.mybatissqlsessionfactory.entity.Role;
-import org.chris.mybatissqlsessionfactory.mapper.RoleMapper;
+import org.chris.mybatis.entity.Role;
+import org.chris.mybatis.mapper.RoleMapper;
 
 
 /**

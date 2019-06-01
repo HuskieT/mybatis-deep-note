@@ -1,6 +1,6 @@
 package org.chris.mybatissqlsessionfactory.jdbc;
 
-import org.chris.mybatissqlsessionfactory.entity.Role;
+import org.chris.mybatis.entity.Role;
 
 import java.sql.*;
 import java.util.Date;
