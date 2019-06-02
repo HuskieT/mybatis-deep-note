@@ -1,4 +1,4 @@
-# mysql 函数group_concat()
+# mysql 函数group_concat()  组合并
 
 ## 参考
 https://www.cnblogs.com/lijiageng/p/6511262.html
