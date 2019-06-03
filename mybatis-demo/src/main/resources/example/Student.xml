@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chris.mybatis.mapper.StudentDao">
+    <resultMap id="studentMap" type="org.chris.mybatis.entity.Student">
+        <id property="id" column="id"/>
+        <result property="cnName" column="cnname"/>
+        <result property="sex" column="sex" jdbcType="INTEGER" javaType="org.chris.mybatis.entity.SexEnum"
+                typeHandler="org.chris.mybatis.entity.SexTypeHandler"/>
+        <association property="studentSelfcard" column="id"
+                     select="org.chris.mybatis.mapper.StudentSelfcardDao.findStudentSelfcardByStudentId"/>
+        <collection property="studentLectureList" column="id"
+                    select="org.chris.mybatis.mapper.StudentLectureDao.findStudentLectureByStudentId"/>
+        <discriminator javaType="int" column="sex">
+            <case value="1" resultMap="maleStudentMap"/>
+            <case value="2" resultMap="femaleStudentMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="studentMap2" type="org.chris.mybatis.entity.Student">
+        <id property="id" column="id"/>
+        <result property="cnName" column="cnname"/>
+        <result property="selfCardNo" column="selfcard_no"/>
+        <result property="note" column="note"/>
+        <association property="studentSelfcard" column="id"
+                     javaType="org.chris.mybatis.entity.StudentSelfCard">
+            <result property="id" column="ssid"/>
+            <result property="studentId" column="student_id"/>
+            <result property="nativeStr" column="native"/>
+            <result property="issueDate" column="issue_date"/>
+            <result property="endDate" column="end_date"/>
+            <result property="note" column="ssnote"/>
+        </association>
+        <collection property="studentLectureList" ofType="org.chris.mybatis.entity.StudentLecture">
+            <result property="id" column="slid"/>
+            <result property="studentId" column="id"/>
+            <result property="grade" column="grade"/>
+            <result property="note" column="slnote"/>
+            <association property="lecture" column="id"
+                         javaType="org.chris.mybatis.entity.Lecture">
+                <result property="id" column="lecture_id"/>
+                <result property="lectureName" column="lecture_name"/>
+                <result property="note" column="note"/>
+            </association>
+        </collection>
+        <discriminator javaType="int" column="sex">
+            <case value="1" resultMap="maleStudentMap"/>
+            <case value="2" resultMap="femaleStudentMap"/>
+        </discriminator>
+    </resultMap>
+
+
+</mapper>
