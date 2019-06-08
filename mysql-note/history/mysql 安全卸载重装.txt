@@ -1,0 +1,9 @@
+安全删除mysql
+
+1.控制面板 删除mysql
+2.删除mysql目录下的文件（services.msc 停止mysql服务再删除）
+3.cmd regedit 进入注册表
+4.删除HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\Eventlog\Application\MySQL文件夹
+ 删除HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Services\Eventlog\Application\MySQL文件夹。
+ 删除HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\MySQL的文件夹
+ 5.删除C盘下的“C:\ProgramData\MySQL ”所有文件（programData文件是隐藏的默认）
