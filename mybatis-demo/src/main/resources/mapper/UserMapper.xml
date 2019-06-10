@@ -29,8 +29,11 @@
     <!--collection元素的作用几乎和association是相同的,collection中多了ofType属性，这个属性用来区分与类的属性property，它代表的是集合属性中包含的类型-->
 
     
-    <insert id="insert1" parameterType="org.chris.mybatis.entity.User"  >
-        INSERT INTO `t_user`(`user_name`,`password`,`sex`,`cnname`,`mobile`) VALUES (#{userName},#{password},#{sex,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler },#{cnname},#{mobile})
+    <insert id="insertUUID" parameterType="org.chris.mybatis.entity.User"  >
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            select replace(uuid(), '-', '') as id from dual
+        </selectKey>
+        INSERT INTO `t_user`(`id`,`user_name`,`password`,`sex`,`cnname`,`mobile`) VALUES (#{id},#{userName},#{password},#{sex,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler },#{cnname},#{mobile})
     </insert>
     
     <select id="getByNameLike" parameterType="string" resultMap="userMap">
@@ -44,6 +47,8 @@
             #{sex}
         </foreach>
     </select>
+
+
 </mapper>
 
 

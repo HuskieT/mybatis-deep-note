@@ -1,9 +1,6 @@
 package org.chris.mybatis.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.chris.mybatis.entity.User;
 
 import java.util.List;
@@ -16,9 +13,6 @@ import java.util.List;
 *@Return 
 *@Throws 
 */
-//操作：演示两种方式
-//<p>第一种是基于mybatis3.x版本后提供的注解方式<p/>
-//<p>第二种是早期写法，将SQL写在 XML 中<p/>
 @Mapper
 public interface UserMapper {
     /**
@@ -39,9 +33,17 @@ public interface UserMapper {
     @Insert("insert into t_user(username,password) values(#{username},#{password})")
     void insert(User user);
 
-
-    public int insert1(User user);
-
+     /**
+     * 添加UUID主键
+     */
+    int insertUUID(User user);
+    /**
+     * 添加UUID主键 注解方式
+     */
+    @Insert("insert into t_user(id, user_name) values(#{id}, #{name})")
+    @SelectKey(keyProperty = "id", resultType = String.class, before = true,
+            statement = "select replace(uuid(), '-', '') as id from dual")
+    int insertUUID2(User user);
 
     User  getByNameLike(String name);
 
@@ -52,5 +54,7 @@ public interface UserMapper {
      * @return
      */
     List<User> findUserBySex(@Param("sexList") List<Integer> list);
+
+
 
 }

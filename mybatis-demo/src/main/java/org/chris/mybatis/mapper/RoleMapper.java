@@ -38,7 +38,13 @@ public interface RoleMapper {
      * @date: 2019/4/13 15:54
      */
     void  update(Role role);
-
+    /** 
+     * @Author: linfei 
+     * @Description:  批量插入 
+     * @Param:  
+     * @return:  
+     * @Date: 2019/6/10 
+     */ 
     void  insert2(List<Role> list);
 
     Map selectUsers();
