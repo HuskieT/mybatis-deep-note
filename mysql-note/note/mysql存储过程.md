@@ -30,12 +30,124 @@ END$$
 DELIMITER ;
 ```   
 [3] 语法
+```
+CREATE
+    [DEFINER = { user | CURRENT_USER }]
+　PROCEDURE sp_name ([proc_parameter[,...]])
+    [characteristic ...] routine_body
 
+proc_parameter:
+    [ IN | OUT | INOUT ] param_name type
 
+characteristic:
+    COMMENT 'string'
+  | LANGUAGE SQL
+  | [NOT] DETERMINISTIC
+  | { CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA }
+  | SQL SECURITY { DEFINER | INVOKER }
 
+routine_body:
+　　Valid SQL routine statement
+
+[begin_label:] BEGIN
+　　[statement_list]
+　　　　……
+END [end_label]
+```
+[4] 存储过程体
+存储过程体包含了在过程调用时必须执行的语句，例如：dml、ddl语句，if-then-else和while-do语句、声明变量的declare语句等
+过程体格式：以begin开始，以end结束(可嵌套)
+```
+BEGIN
+　　BEGIN
+　　　　BEGIN
+　　　　　　statements; 
+　　　　END
+　　END
+END
+```
+注意：每个嵌套块及其中的每条语句，必须以分号结束，表示过程体结束的begin-end块(又叫做复合语句compound statement)，则不需要分号。
+
+[5] 为语句块贴标签
+标签有两个作用：①增强代码的可读性 　②在某些语句(例如:leave和iterate语句)，需要用到标签
+```
+[begin_label:] BEGIN
+　　[statement_list]
+END [end_label]
+```
+例如：
+```
+label1: BEGIN
+　　label2: BEGIN
+　　　　label3: BEGIN
+　　　　　　statements; 
+　　　　END label3 ;
+　　END label2;
+END label1
+```
+[6] 
 [ IN | OUT | INOUT ] param_name type
 其中，IN表示输入参数；OUT表示输出参数； INOUT表示既可以是输入，也可以是输出； 
 param_name参数是存储过程的参数名称；type参数指定存储过程的参数类型，该类型可以是MySQL数据库的任意数据类型。
+
+①如果过程没有参数，也必须在过程名后面写上小括号
+　例：CREATE PROCEDURE sp_name ([proc_parameter[,...]]) ……
+②确保参数的名字不等于列的名字，否则在过程体中，参数名被当做列名来处理
+
+**强烈建议**
+>输入值使用in参数；
+>返回值使用out参数；
+>inout参数就尽量的少用。
+
+[7] 变量赋值
+语法： SET 变量名 = 表达式值 [,variable_name = expression ...]
+
+SET @p_in=1
+[8] 变量 
+语法： DECLAREvariable_name [,variable_name...] datatype [DEFAULT value];
+例如：
+   1.  DECLARE l_int int unsigned default 4000000;  
+   2.  DECLARE l_numeric number(8,2) DEFAULT 9.95;  
+   3.  DECLARE l_date date DEFAULT '1999-12-31';  
+   4.  DECLARE l_datetime datetime DEFAULT '1999-12-31 23:59:59';  
+   5.  DECLARE l_varchar varchar(255) DEFAULT 'This will not be padded
+[9] 用户变量 
+
+①用户变量名一般以@开头
+②滥用用户变量会导致程序难以理解及管理
+**1 在存储过程中使用用户变量**
+```sql
+mysql > CREATE PROCEDURE GreetWorld( ) SELECT CONCAT(@greeting,' World');  
+mysql > SET @greeting='Hello';  
+mysql > CALL GreetWorld( );  
++----------------------------+  
+| CONCAT(@greeting,' World') |  
++----------------------------+  
+|  Hello World               |  
++----------------------------+  
+```
+**2 在存储过程间传递全局范围的用户变量** 
+```sql
+1.  mysql> CREATE PROCEDURE p1()   SET @last_procedure='p1';  
+2.  mysql> CREATE PROCEDURE p2() SELECT CONCAT('Last procedure was ',@last_procedure);  
+3.  mysql> CALL p1( );  
+4.  mysql> CALL p2( );  
+5.  +-----------------------------------------------+  
+6.  | CONCAT('Last procedure was ',@last_proc       |  
+7.  +-----------------------------------------------+  
+8.  | Last procedure was p1                        |  
+9.  +-----------------------------------------------+  
+```
+[10] 存储过程 查询
+
+    我们可以用
+    select name from mysql.proc where db=’数据库名’;
+    或者
+    select routine_name from information_schema.routines where routine_schema='数据库名';
+    或者
+    show procedure status where db='数据库名';
+
+
 # 详解
 
 [1] out 示例
