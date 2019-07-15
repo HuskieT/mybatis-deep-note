@@ -7,11 +7,11 @@
 
 - mybatis-plus-sample-quickstart-springmvc：MyBatis-Plus 快速开始示例（Spring MVC版本）
 - mybatis-plus-sample-generator：MyBatis-Plus 代码生成器示例
-- mybatis-plus-sample-crud：MyBatis-Plus 完整 CRUD 示例
-- mybatis-plus-sample-wrapper：MyBatis-Plus 条件构造器示例
+- mybatis-plus-sample-crud：MyBatis-Plus 完整 CRUD 示例   test
+- mybatis-plus-sample-wrapper：MyBatis-Plus 条件构造器示例 test 
 - mybatis-plus-sample-pagination：MyBatis-Plus 分页功能示例
 - mybatis-plus-sample-active-record：MyBatis-Plus ActiveRecord示例
-- mybatis-plus-sample-sequence：MyBatis-Plus Sequence示例
+- mybatis-plus-sample-sequence：MyBatis-Plus Sequence示例  支持orcal DB2 postgre 不支持mysql
 - mybatis-plus-sample-execution-analysis：MyBatis-Plus Sql执行分析示例
 - mybatis-plus-sample-performance-analysis：MyBatis-Plus 性能分析示例
 - mybatis-plus-sample-optimistic-locker：MyBatis-Plus 乐观锁示例
