@@ -1,6 +1,6 @@
 # mysql 存储过程
 # 参考
-
+[MySQL存储过程中，定义变量有两种方式](https://blog.csdn.net/ctx645634642/article/details/77484716)
 # 简介
 [1]【definer和invoker的解释】
     创建存储过程的时候可以指定 SQL SECURITY属性，设置为 DEFINER 或者INVOKER，用来奉告mysql在执行存储过程的时候，，是以DEFINER用户的权限来执行，还是以调用者的权限来执行。
@@ -150,7 +150,7 @@ mysql > CALL GreetWorld( );
 
 # 详解
 
-[1] out 示例
+## [1] out 示例
 
 ```sql
 mysql> delimiter $$
@@ -163,7 +163,7 @@ mysql> CALL simpleproc(@a);
 mysql> SELECT @a;
 
 ```
-[2] in 示例
+## [2] in 示例
 ```sql
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chris_test`(in param1 VARCHAR(11))
@@ -171,7 +171,7 @@ BEGIN
 	SELECT count(*) from test where id=param1 ;
 END
 ```
-[3] mybatis 调用存储过程
+## [3] mybatis 调用存储过程
 
 ```sql
 <select id="getInfo" statementType="CALLABLE" resultMap="infoResultMap" parameterType="java.util.HashMap">
@@ -179,7 +179,14 @@ END
 </select>
 
 ```
+## [4]  定义变量有两种方式
+MySQL存储过程中，定义变量有两种方式：
+   
+    1、使用set或select直接赋值，变量名以 @ 开头，（可以在一个会话的任何地方声明，作用域是整个会话，称为会话变量）
+    2、以 DECLARE 关键字声明的变量，只能在存储过程中使用，称为存储过程变量
 
+**两者的区别是：**
 
+    在调用存储过程时，以DECLARE声明的变量都会被初始化为 NULL。而会话变量（即@开头的变量）则不会被再初始化，在一个会话内，只须初始化一次，之后在会话内都是对上一次计算的结果，就相当于在是这个会话内的全局变量。
 
 
