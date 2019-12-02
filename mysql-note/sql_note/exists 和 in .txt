@@ -4,20 +4,21 @@ exists,not exists的使用方法示例，需要的朋友可以参考下。
 
 学生表：create table student
 (
- id number(8) primary key,
- name varchar2(10),deptment number(8)
+ id int(8) primary key,
+ name varchar(10),
+ deptment int(8)
 )
 选课表：create table select_course
 (
-  ID         NUMBER(8) primary key,
-  STUDENT_ID NUMBER(8) foreign key (COURSE_ID) references course(ID),
-  COURSE_ID  NUMBER(8) foreign key (STUDENT_ID) references student(ID)
+  ID         int(8) primary key,
+  STUDENT_ID int(8) ,
+  COURSE_ID  int(8)
 )
 课程表：create table COURSE
 (
-  ID     NUMBER(8) not null,
-  C_NAME VARCHAR2(20),
-  C_NO   VARCHAR2(10)
+  ID     int(8)  primary key not null,
+  C_NAME varchar(20),
+  C_NO   varchar(10)
 )
 student表的数据：
         ID NAME            DEPTMENT_ID
@@ -42,9 +43,10 @@ select_course表的数据：
          5    2         2
          6    3         2
 1.查询选修了所有课程的学生id、name:（即这一个学生没有一门课程他没有选的。）
-分析：如果有一门课没有选，则此时(1)select * from select_course sc where sc.student_id=ts.id
-and sc.course_id=c.id存在null，
-这说明(2)select * from course c 的查询结果中确实有记录不存在(1查询中)，查询结果返回没有选的课程，
+分析：如果有一门课没有选，则此时
+(1)select * from select_course sc where sc.student_id=ts.id
+and sc.course_id=c.id存在null，这说明
+(2)select * from course c 的查询结果中确实有记录不存在(1查询中)，查询结果返回没有选的课程，
 此时select * from t_student ts 后的not exists 判断结果为false，不执行查询。
 SQL> select * from t_student ts where not exists
 	 (select * from course c where not exists
@@ -82,3 +84,125 @@ SQL> select id,name from t_student where exists
          1 echo
          2 spring
          3 smith
+
+
+ 总结： exists  的用法有两种：
+ 子查询 和 父子查询
+
+ 子查询： select * from A where exists （select b）  其中 a 与 b没有关联关系
+
+ 如果为exists  (select b) 结果 为 true （有值） 则（select a） 返回所有查询结果
+       exists   (select b) 结果 为 false (结果为null)   则 （select a） 返回null
+
+ 如果为 not exists   (select b) 结果 为 true （有值） 则（select a） 返回null
+        not exists   (select b) 结果 为 false （结果为null） 则（select a） 返回所有查询结果
+
+
+
+  父子查询 ： select * from A where exists （select b where a.aid = b.aid ）  其中 a 与 b 有关联关系
+
+  如果为exists  (select b) 结果 为 true （有值） 则（select a） 返回所有查询结果
+
+
+
+# EXISTS 父子查询用法（ exists 后面的子查询与主查询语句有关联）
+
+## select a where exists （select b where a.aid = b.aid ）
+
+select * FROM student WHERE  EXISTS (SELECT sc.SId from sc WHERE CId = '01' and student.SId = sc.SId)
+
+等同于
+select * FROM student
+与
+select student.* FROM student, sc  WHERE CId = '01' and student.SId = sc.SId
+结果的交集
+
+/*
+
+
+01	赵雷	1990-01-01 00:00:00	男
+02	钱电	1990-12-21 00:00:00	男
+03	孙风	1990-12-20 00:00:00	男
+04	李云	1990-12-06 00:00:00	男
+05	周梅	1991-12-01 00:00:00	女
+06	吴兰	1992-01-01 00:00:00	女
+*/
+
+select * FROM student WHERE not EXISTS (SELECT sc.SId from sc WHERE CId = '01' and student.SId = sc.SId)
+
+等同于
+select * FROM student
+与
+select student.* FROM student, sc  WHERE CId = '01' and student.SId = sc.SId
+结果的非交集
+
+/*
+07	郑竹	1989-01-01 00:00:00	女
+09	张三	2017-12-20 00:00:00	女
+10	李四	2017-12-25 00:00:00	女
+11	李四	2012-06-06 00:00:00	女
+12	赵六	2013-06-13 00:00:00	女
+13	孙七	2014-06-01 00:00:00	女
+*/
+
+
+
+
+# exists 双层嵌套
+
+## 选修了所有课程的学生信息
+select sid,Sname from student where not exists
+(
+	select * from course where not exists
+	(
+	select * from sc where sc.sid=student.sid and sc.cid=course.cid
+	)
+)
+
+
+/**
+1）相当于两个for循环，外层循环就是遍历所有学生，里层循环就是对每一位学生遍历所有课程
+2）最里面的那一个select语句便是选出该学生选过的课程，那么not exists语句便是从课程表course中选出该学生没选过的课。
+3）外层where exists用于从sc表里选出有没选过课的学生，那么not exists便是选出选过所有课程的学生
+
+## select * from sc where sc.sid=student.sid and sc.cid=course.cid 选出该学生选过的课程
+拿 sid = 01举例
+sid  cid
+01	01	80.0
+01	02	90.0
+01	03	99.0
+
+此查询中cid的结果为 01,02,03 与   select * from course 取非交集为 null
+
+
+再拿  sid = 06举例
+06	01	31.0
+06	03	34.0
+
+此查询中cid的结果为 01,03 与   select * from course 取非交集为获得学生sid = 06 （未选满所有课程的学生id）
+
+
+	select * from course where not exists
+	(
+	select * from sc where sc.sid=student.sid and sc.cid=course.cid
+	)
+
+ 的结果为 sid：05,06,07  与最外成 select sid,Sname from student 的非交集为 01,02,03,04
+ 故: 选修了所有课程的学生信息为 sid = 01,02,03,04
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

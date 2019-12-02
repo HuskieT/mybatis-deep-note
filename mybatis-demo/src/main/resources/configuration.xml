@@ -62,7 +62,7 @@
         <!-- 这用可以简化代码量 -->
         <package name="org.chris.mybatissqlsessionfactory.entity" />
     </typeAliases>
-    <objectFactory type="org.chris.mybatis.config.ExampleObjectFactory">
+    <objectFactory type="org.chris.mybatis.test.ExampleObjectFactory">
         <property name="someProperty" value="100"/>
     </objectFactory>
     <!--

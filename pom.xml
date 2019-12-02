@@ -7,11 +7,11 @@
     <groupId>org.chris</groupId>
     <artifactId>mybatis-deep-note</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>mybatis-demo</module>
         <module>reverse-engineering</module>
-        <module>mybatis_plugin</module>
         <module>mybatis-plus-samples</module>
 
     </modules>

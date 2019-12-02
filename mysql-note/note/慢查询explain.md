@@ -94,3 +94,5 @@ No tables used：Query语句中使用from dual 或不含任何from子句
 
     -- explain select now() from dual;
 
+
+## 查看变量的 SQL 语句

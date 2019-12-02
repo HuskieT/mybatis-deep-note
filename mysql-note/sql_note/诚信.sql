@@ -8,4 +8,3 @@ FROM
 select  certificate_type,  group_concat(  distinct ( json_extract (certificate_grade,'$[0].certificateGrade'))) as xx   from cxrz_archive_certificate v where company_id='6524'and record_status='2' and certificate_type='6'
 ) v1
 
-industryFamous

@@ -17,6 +17,7 @@ import java.sql.SQLException;
  * @Description:  自定义TypeHandler（类型处理器）
  */
 @MappedJdbcTypes( JdbcType.VARCHAR )
+//此处如果不用注解指定jdbcType, 那么，就可以在配置文件中通过"jdbcType"属性指定， 同理， javaType 也可通过 @MappedTypes指定
 @MappedTypes( {String.class} )
 @Slf4j
 public class MyTypeHandler implements TypeHandler<String> {

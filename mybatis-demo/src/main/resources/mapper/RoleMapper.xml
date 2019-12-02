@@ -37,7 +37,7 @@
 
     <!--resultMap属性：指定定义的resultMap的id，如果这个resultMap在其它的mapper文件，前边需要加namespace-->
     <select id="getAll"        resultMap="roleMap" >
-        <include refid="selectAll"/> t_role
+        <include refid="selectAll"/>  t_role
     </select>
 
     <select id="getRoleById" parameterType="Integer" resultType="role" >
@@ -55,7 +55,7 @@
     </select>
     <!--@Param注解传参法 -->
     <select id="getEntity1" resultType="role"  >
-        select * from t_role where roleName = #{roleName} and note = #{note} and createDate = #{createDate}
+        select * from t_role where roleName = #{roleName} and note = #{remark} and createDate = #{createDate}
     </select>
     <!--Java Bean传参法     #{}里面的名称对应的是User类里面的成员属性。-->
     <select id="getEntity2" resultType="role" parameterType="role"  >
@@ -106,6 +106,7 @@
     　　prefixOverrides：忽略第一个指定分隔符
     　　suffixOverrides：会略最后一个分隔符
     -->
+
     <select id="getRole2" resultType="role" parameterType="role" >
         <include refid="selectAll"/>
         t_role

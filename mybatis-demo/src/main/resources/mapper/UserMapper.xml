@@ -38,7 +38,7 @@
     
     <select id="getByNameLike" parameterType="string" resultMap="userMap">
         select id , user_name ,password, sex,email,cnname,note,mobile from  t_user
-        where name like concat('%',#{userName typeHandler = org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
+        where name like concat('%',#{userName,typeHandler=org.chris.mybatissqlsessionfactory.config.MyTypeHandler },'%');
     </select>
 
     <select id="findUserBySex" resultType="org.chris.mybatis.entity.User">

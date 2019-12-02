@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 # 1  查询部门编号不是在90到110之间，或者工资高于15000的员工信息 
   
  sql> SELECT * FROM employees WHERE NOT(department_id>=90 AND  department_id<=110) OR salary>15000; 

@@ -1,0 +1,13 @@
+sql执行顺序
+
+from
+join
+on
+where
+group by(开始使用select中的别名，后面的语句中都可以使用)
+ avg,sum....
+having
+select
+distinct
+order by
+limit
