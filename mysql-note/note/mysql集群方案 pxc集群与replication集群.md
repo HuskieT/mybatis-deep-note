@@ -1,7 +1,8 @@
 # mysql 集群方案
 
 #参考
-
+[MySQL5.7.18基于事务的主从复制和读写分离](https://blog.csdn.net/lvshaorong/article/details/80471878)
+[PXC+Replication多主多从MySQL集群搭建](https://blog.csdn.net/lvshaorong/article/details/80523749)
 #简介
 [1]
 pxc集群  适合数据价值高、强一致性的场景(如：账户 订单 财务)

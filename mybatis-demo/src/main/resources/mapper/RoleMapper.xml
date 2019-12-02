@@ -305,4 +305,20 @@
         and note like #{pattern_note}
     </select>
     <!-- 5.7 使用bind元素end -->
+
+    <insert id="test" parameterType="java.util.List">
+        INSERT INTO `credit_dimension_description`(`id`, `name`, `dimension_id`, `dimension_code`, `description`, `create_date`, `modify_date`, `create_id`, `modify_id`) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            (SELECT REPLACE(UUID(), '-', '') AS id),
+            #{item},
+            null,
+            null,
+            null,
+            '2019-09-05 16:51:06',
+            '2019-09-05 16:51:09',
+            '-1',
+            '-1' )
+        </foreach>
+    </insert>
 </mapper>
